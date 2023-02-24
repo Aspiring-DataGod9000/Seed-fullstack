@@ -1,10 +1,20 @@
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import LoginApi from '../api/login.api';
+import EmailAPI from '../api/emailchange.api';
+
 
 const ChangeEmail = (props) => {
 
     const onFinish = async (values) => {
+
+        const patchRequest = {
+            oilemail: values.oldemail,
+            newemail: values.newemail
+        }
+        console.log(patchRequest)
+        
+        const data = await EmailAPI.emailchange(patchRequest)
+
     };
 
 
@@ -24,13 +34,51 @@ const ChangeEmail = (props) => {
             autoComplete="off"
         >
             <Form.Item
-                label="New Email"
-                name="email"
+                label="Current Email"
+                name="oldemail"
                 style={{ color: "white" }}
                 rules={[
-                    { required: true, message: 'Please input your username!' },
-                    { pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, message: 'Email Format pls' },
-                    { min: 5, message: 'min 5 chars pls' },
+                    { required: true, message: 'Please input your Email!' },
+                    { type: 'email', message: 'Invalid Email Format' },
+                    { min: 5, message: 'Min 5 chars required' },
+                ]}
+            >
+                <Input placeholder='Enter your username' />
+            </Form.Item>
+
+
+            <Form.Item
+                label="New Email"
+                name="newemail"
+                style={{ color: "white" }}
+                rules={[
+                    { required: true, message: 'Please input your Email!' },
+                    { type: 'email', message: 'Invalid Email Format' },
+                    { min: 5, message: 'Min 5 chars required' },
+                    
+                ]}
+            >
+                <Input placeholder='Enter your username' />
+            </Form.Item>
+
+
+            <Form.Item
+                label="Confirm Email"
+                name="confirmemail"
+                style={{ color: "white" }}
+                rules={[
+                    { required: true, message: 'Please input your Email!' },
+                    { type: 'email', message: 'Invalid Email Format' },
+                    { min: 5, message: 'Min 5 chars required' },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue('newemail') === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(new Error('The two Emails that you entered do not match!'));
+                        },
+                      }),
+                    
                 ]}
             >
                 <Input placeholder='Enter your username' />

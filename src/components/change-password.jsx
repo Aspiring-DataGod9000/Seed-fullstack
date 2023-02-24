@@ -1,10 +1,18 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import LoginApi from '../api/login.api';
+import PasswordAPI from '../api/passwordchange.api';
 
 const ChangePassword = (props) => {
 
     const onFinish = async (values) => {
+
+        const patchRequest = {
+            oilemail: values.oldPassword,
+            newemail: values.newPassword
+        }
+        console.log(patchRequest)
+        
+        const data = await PasswordAPI.passwordchange(patchRequest)
     };
 
 
@@ -44,6 +52,7 @@ const ChangePassword = (props) => {
                         required: true,
                         message: 'Please input your new password!',
                     },
+                    { min: 5, message: 'min 5 chars pls' },
                 ]}
             >
                 <Input.Password placeholder='Enter your new password' />
@@ -56,7 +65,17 @@ const ChangePassword = (props) => {
                         required: true,
                         message: 'Please input this field!',
                     },
-                ]}
+                    { min: 5, message: 'min 5 chars pls' },
+                    ({ getFieldValue }) => ({
+                        validator(_, value) {
+                          if (!value || getFieldValue('newPassword') === value) {
+                            return Promise.resolve();
+                          }
+                          return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                        },
+                      }),
+                    
+                    ]}
             >
                 <Input.Password placeholder='Enter your chosen password' />
             </Form.Item>

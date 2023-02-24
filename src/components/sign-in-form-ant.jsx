@@ -17,16 +17,11 @@ const SignInForm = (props) => {
     const token = response.token;
     localStorage.setItem("accessToken", token);
     if (token) {
-      navigate("form")
+      navigate("home")
     }
   };
 
 
-
-
-  const listUser = () => {
-    const savedAccessToken = localStorage.getItem("accessToken");
-  }
 
   return (<div style={{ marginTop: 20 }}>
 
@@ -48,9 +43,9 @@ const SignInForm = (props) => {
         name="email"
         style={{ color: "white" }}
         rules={[
-          { required: true, message: 'Please input your username!' },
-          { pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, message: 'Email Format pls' },
-          { min: 5, message: 'min 5 chars pls' },
+          { required: true, message: 'Please input your Email!' },
+          { type: 'email', message: 'Invalid Email Format' },
+          { min: 5, message: 'Min 5 chars required' },
         ]}
       >
         <Input placeholder='Enter your username' />
@@ -64,6 +59,7 @@ const SignInForm = (props) => {
             required: true,
             message: 'Please input your password!',
           },
+          { min: 5, message: 'Min 5 chars required' }
         ]}
       >
         <Input.Password placeholder='Enter your password' />

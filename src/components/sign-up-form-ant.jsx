@@ -41,10 +41,8 @@ const SignUpForm = (props) => {
                     label="Username"
                     name="username"
                     rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!',
-                        },
+                        { required: true, message: 'Please input your username!' },
+                        { min: 5, message: 'min 5 chars pls' },
                     ]}
                 >
                     <Input placeholder='Enter your username' />
@@ -55,8 +53,8 @@ const SignUpForm = (props) => {
                     name="Email"
                     rules={[
                         { required: true, message: 'Please input your username!' },
-                        { pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, message: 'Email Format pls' },
-                        { min: 5, message: 'min 5 chars pls' },
+                        { type: 'email', message: 'Invalid Email format' },
+                        { min: 5, message: 'Min 5 chars required' },
                     ]}
                 >
                     <Input placeholder='Enter your email' />
@@ -68,8 +66,8 @@ const SignUpForm = (props) => {
                     label="Password"
                     name="password"
                     rules={[
-                        { required: true, message: 'Please input your username!' },
-                        { min: 5, message: 'min 6 chars pls' },
+                        { required: true, message: 'Please input your password!' },
+                        { min: 5, message: 'min 5 chars pls' },
                     ]}
                 >
                     <Input.Password placeholder='Enter your password' />
